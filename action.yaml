@@ -7,6 +7,10 @@ inputs:
   new-version:
     description: The new version to bump to
     required: true
+  pull:
+    description: Pull before committing
+    required: false
+    default: "false"
 runs:
   using: composite
   steps:
@@ -14,6 +18,12 @@ runs:
       uses: actions/checkout@v2
       with:
         token: ${{ inputs.pat }}
+
+    - name: Git Pull
+      if: ${{ inputs.pull == 'true' }}
+      run: |
+        git pull
+      shell: bash
 
     - name: Bump VERSION file
       run: |
