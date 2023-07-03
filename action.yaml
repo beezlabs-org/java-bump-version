@@ -25,6 +25,11 @@ runs:
         git pull
       shell: bash
 
+    - name: Bump Gradle build file
+      run: |
+        find . -name "build.gradle" -exec sed -i -E "s/version = '[0-9\.]*(-SNAPSHOT)'/version = '${{ inputs.new-version }}'/g" {} \;
+      shell: bash
+
     - name: Bump VERSION file
       run: |
         echo ${{ inputs.new-version }} > VERSION
